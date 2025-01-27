@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%
+\documentclass{amsart}
+
+\input{preamble}
+
+\title{Definitions, Exercises, and More}
+
+\author{Daniel R. Barrero R.}
+
+\begin{document}
+
+\maketitle
+
+\begin{defn}
+	Let $f : \NN \to \Rplus$.
+	\begin{enumerate}
+		\item We say $f$ is \emph{eventually non-decreasing} if there exists $n_0 \in \NN$ such that $f(n) \leq f(n+1)$ for all $n \geq n_0$.
+		\item Let $b \geq 2$ be an integer. We say that $f$ is $b-$smooth if it is e.n.d. and $f(bn) \in O(f(n))$.
+	\end{enumerate}
+\end{defn}
+
+\bigskip
+
+% Is \n the first character of the current line, or the last character of the preceeding one? Maybe I can ask gpt...
+
+\begin{defn}
+	\begin{enumerate}
+		\item _rooted tree_
+		\item _root_
+		\item _internal node_: a node that is not a leaf.
+		\item _leaf_: a node with no children.
+	\end{enumerate}
+\end{defn}
+
+\bigskip
+
+\begin{defn}
+	\begin{enumerate}
+		\item The _height_ of a node is the length of the longest path from it to a leaf.
+		\item The _depth_ of a node is the length of the unique path from the root to it.
+		\item nodeLevel = treeHeight - nodeDepth.
+	\end{enumerate}
+
+\end{defn}
+
+\bigskip
+
+\begin{defn}
+	A binary tree is _essentially complete_ if each of its internal nodes has _exactly two children_, with one possible exception: a node at depth (level?) 1, which lacks its left child. % draw many examples...
+\end{defn}
+
+\bigskip
+
+\textbf{Claim.}
+
+\begin{enumerate}
+	\item If $f(n)$ is e.n.d., then $f(n) \in O(f(bn))$.
+	% most likely part of exr 2.1.20...
+\end{enumerate}
+
+\end{document}
