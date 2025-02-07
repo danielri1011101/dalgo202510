@@ -67,6 +67,12 @@ public class Semana01 {
 		}
 	}
 	
+	/**
+	 * Bolzano-Cauchy algorithm to compute the square root of n. 
+	 * @param n
+	 * @param steps
+	 * @return
+	 */
 	public static float bcSqrt(int n, int steps) {
 		if(steps <= 0 || n <= 0) {
 			return n;
