@@ -2,33 +2,45 @@ package semanas01a03;
 
 public class Semana03 {
 	
-	private static int[] wrongMerge(int[] aa, int[] bb) {
+	/**
+	 * The input arrays are sorted and non-empty.
+	 * @param aa
+	 * @param bb
+	 * @return the merging of the arrays.
+	 */
+	private static int[] merge(int[] aa, int[] bb) {
 		int[] result = new int[aa.length + bb.length];
-		int iR = 0; // result index
-		int iA = 0; // aa index
-		int iB = 0; // bb index
-		int minAa = aa[iA];
-		int minBb = bb[iB];
+		int iA = 0;
+		int iB = 0;
+		int iR = 0;
 		while(iR < result.length) {
-			if(minAa < minBb) {
-				result[iR] = minAa;
-				if(iA < aa.length-1) {
-					iA++;
-					minAa = aa[iA];
-				}
+			 
+			if(iA == aa.length && iB < bb.length) {
+				result[iR] = bb[iB];
+				iR++;
+				iB++;
+			}
+			else if(iB == bb.length && iA < aa.length) {
+				result[iR] = aa[iA];
+				iR++;
+				iA++;
 			}
 			else {
-				result[iR] = minBb;
-				if(iB < bb.length-1) {
+				while(iA < aa.length && aa[iA] <= bb[iB] ) {
+					result[iR] = aa[iA];
+					iR++;
+					iA++;
+				}
+				while(iB < bb.length && bb[iB] <= aa[iA] ) {
+					result[iR] = bb[iB];
+					iR++;
 					iB++;
-					minBb = bb[iB];
 				}
 			}
-			iR++;
 		}
 		return result;
 	}
-	
+
 	public static void printArray(int[] aa) {
 		if(aa.length > 0) {
 			int i = 0;
@@ -46,9 +58,8 @@ public class Semana03 {
 		int[] cc = new int[] {4,5,6,10,11,12};
 		int[] dd = new int[] {1,2,3,7,8,9};
 		
-		printArray(wrongMerge(aa,bb));
-		
-		printArray(wrongMerge(cc,dd));
+		printArray(merge(aa,bb));
+		printArray(merge(cc,dd));
 		
 	}
 
