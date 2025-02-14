@@ -10,7 +10,7 @@ public class MyLargeInteger {
 	 * (floor of the) BASE logarithm of the number.
 	 * 
 	 */
-	private int sizeIndex; 
+	private int degree; 
 	
 	/** The number in BASE expansion, from right to left. For instance if
 	 * the base is 10 then 7 _times_ 7 is {9,4} and  7 _times_ 9 is {3,6}.
@@ -49,14 +49,14 @@ public class MyLargeInteger {
 	/**
 	 * creates an instance
 	 * @param value
-	 * @param power
+	 * @param degree
 	 */
-	private MyLargeInteger(int value, int power) {
+	private MyLargeInteger(int value, int degree) {
 		this.blocks = new int[BLOCK_SIZE];
 		if(-BASE <= value && value <= BASE &&
-				0 <= power && power < BLOCK_SIZE) {
-			this.blocks[power] = value;
-			this.sizeIndex = power;
+				0 <= degree && degree < BLOCK_SIZE) {
+			this.blocks[degree] = value;
+			this.degree = degree;
 		}
 	}
 	
@@ -94,12 +94,12 @@ public class MyLargeInteger {
 	public static MyLargeInteger add(MyLargeInteger nn, MyLargeInteger mm) {
 		int b = BASE;
 		
-		int steps = nn.sizeIndex;
-		if(mm.sizeIndex > steps) {
-			steps = mm.sizeIndex;
+		int steps = nn.degree;
+		if(mm.degree > steps) {
+			steps = mm.degree;
 		}
 		MyLargeInteger result = new MyLargeInteger(0);
-		result.sizeIndex = steps;
+		result.degree = steps;
 		
 		boolean carry = false;
 		int i = 0;
@@ -115,7 +115,7 @@ public class MyLargeInteger {
 			i++;
 		}
 		if(i > steps+1) {
-			result.sizeIndex++;
+			result.degree++;
 		}
 		
 		return result;
@@ -126,14 +126,14 @@ public class MyLargeInteger {
 	 * @param p
 	 */
 	private void shift(int p) {
-		if(p <= 0 || this.sizeIndex + p >= BLOCK_SIZE) {
+		if(p <= 0 || this.degree + p >= BLOCK_SIZE) {
 			return;
 		}
-		for(int i = this.sizeIndex; i >= 0; i--) {
+		for(int i = this.degree; i >= 0; i--) {
 			this.blocks[i+p] = this.blocks[i];
 			this.blocks[i] = 0;
 		}
-		this.sizeIndex +=p;
+		this.degree +=p;
 	}
 	
 	/**
