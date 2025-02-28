@@ -98,11 +98,9 @@ public class Semana01 {
 	}
 	
 	public static void main(String[] args) {
-		float a = 3/7f;
-		
-		System.out.println(a);
-		System.out.println();
-		System.out.println(bcSqrt(9, 29));
+		int foo = 2 << 4;
+		System.out.println(1<<2);
+		System.out.println(5^8);
 	}
 
 }
