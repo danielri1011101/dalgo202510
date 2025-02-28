@@ -44,11 +44,6 @@ public class Karen {
 	 */
 	private static int[][] distances;
 	
-//	private static final boolean VALID =
-//			xCoords.length == 1 + beepers &&
-//			yCoords.length == 1 + beepers &&
-//			distances.length == 1 + beepers;
-	
 	/**
 	 * The matrix with the shortest paths, built bottom-up.
 	 * it has 1 + _beepers_ rows and 2^_beepers_ columns.
@@ -182,8 +177,8 @@ public class Karen {
 	
 	public static void main(String[] args) {
         try {
-            setUp("/home/daniel/git/repository2/dalgoA/src/"
-            		+ "semanas04a06/karenInput.txt"); 
+            setUp("C:\\Users\\profesor\\git\\dalgo202510\\"
+            		+ "dalgoA\\src\\semanas04a06\\karenInput.txt"); 
             int shortestPath = krn();
             System.out.println("The shortest path has length " + shortestPath);
         } catch (IOException e) {
