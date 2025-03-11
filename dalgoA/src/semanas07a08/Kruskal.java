@@ -1,5 +1,10 @@
 package semanas07a08;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Kruskal {
 
 	private static class Partition {
@@ -109,7 +114,7 @@ public class Kruskal {
 	}
 	
 	public static Edge[] kruskal(Graph gg) {
-		Edge[] ans = new Edge[gg.edges.length];
+		Edge[] ans_ = new Edge[gg.edges.length];
 		Partition pp = new Partition(gg.nodes);
 		pp.initialize();
 		Edge[] edges = gg.edges;
@@ -126,11 +131,18 @@ public class Kruskal {
 			
 			if(ca != cb) {
 				pp.union(ca, cb);
-				ans[reach] = e;
+				ans_[reach] = e;
 				reach++;
 			}
 			i++;
 		}
+		
+		Edge[] ans = new Edge[reach];
+		
+		for(int j=0; j < reach; j++) {
+			ans[j] = ans_[j];
+		}
+		
 		return ans;
 	}
 	
@@ -172,62 +184,69 @@ public class Kruskal {
 		return t+a;
 	}
 	
+	/**
+	 * Builds the graph from the input file.
+	 * First line of input is the graph's number of nodes,
+	 * followed by the data for the edges, one per line.
+	 * It consists of three non-negative integers, the second and third
+	 * being strictly positive. The integers are separated by
+	 * a single blank space. The first two are the nodes connected
+	 * by the edge, and the third integer is the weight. The first node
+	 * should be the smaller one, so that computing the mask is easier.
+	 * @param input
+	 * @return
+	 * @throws IOException 
+	 */
+	public static Graph setUp(String input) throws IOException {
+		FileReader fr = new FileReader(input);
+		BufferedReader br = new BufferedReader(fr);
+		String line = br.readLine();
+		int nodes = Integer.parseInt(line);
+		int max = nodes*(nodes-1)/2;
+		Edge[] es_ = new Edge[max];
+		int c = 0; // edge count.
+		line = br.readLine();
+		while(line != null && c < max) {
+			String[] nrs = line.split("\\s+");
+			int[] node = new int[2];
+			node[0] = Integer.parseInt(nrs[0]);
+			node[1] = Integer.parseInt(nrs[1]);
+			int weight = Integer.parseInt(nrs[2]);
+			Edge e = new Edge(node, weight);
+			es_[c] = e;
+			c++;
+			line = br.readLine();
+		}
+		Edge[] es = new Edge[c];
+		for(int i=0; i<c; i++) {
+			es[i] = es_[i];
+		}
+		Graph ans = new Graph(nodes, es);
+		return ans;
+	}
+	
+	/**
+	 * The main method.
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		int[][] es_ = new int[12][2];
-
-		int[] e01_ = {0,1};
-		es_[0] = e01_;
-
-		int[] e03_ = {0,3};
-		es_[1] = e03_;
-
-		int[] e12_ = {1,2};
-		es_[2] = e12_;
-
-		int[] e25_ = {2,5};
-		es_[3] = e25_;
-
-		int[] e56_ = {5,6};
-		es_[4] = e56_;
-
-		int[] e36_ = {3,6};
-		es_[5] = e36_;
-
-		int[] e14_ = {1,4};
-		es_[6] = e14_;
-
-		int[] e34_ = {3,4};
-		es_[7] = e34_;
-
-		int[] e46_ = {4,6};
-		es_[8] = e46_;
-
-		int[] e45_ = {4,5};
-		es_[9] = e45_;
-
-		int[] e13_ = {1,3};
-		es_[10] = e13_;
-
-		int[] e24_ = {2,4};
-		es_[11] = e24_;
-		
-		int[] ws = {1,4,2,6,3,4,4,3,7,8,6,5};
-		
-		Edge[] es = new Edge[12];
-		
-		for(int i=0; i < 12; i++) {
-			es[i] = new Edge(es_[i],ws[i]);
+		String input = "/home/profesor/danielr/teaching/dalgo202510/"
+				+ "diapositivasYMaterialClases/semana07/kInput1.txt";
+		try {
+			Graph gg = setUp(input);
+			Edge[] mst = kruskal(gg); // a minimum spanning tree of gg.
+			System.out.println("The edges of a minimum spanning"
+					+ " tree for G are:");
+			for(int i=0; i < mst.length; i++) {
+				Edge e = mst[i];
+				int[] nodes = e.giveNodes();
+				System.out.print("{" + nodes[0] + ", " + nodes[1]);
+				System.out.println("}");
+			}
 		}
-		
-		sortEdges(es);
-		
-		System.out.println("The sorted edges are:");
-		for(int i=0; i < 12; i++) {
-			int[] nodes = es[i].giveNodes();
-			System.out.print("{" + (nodes[0]+1) + ", " + (nodes[1]+1));
-			System.out.println("}");
+		catch(IOException e) {
+			e.printStackTrace();
 		}
-		
 	}
 
 }
