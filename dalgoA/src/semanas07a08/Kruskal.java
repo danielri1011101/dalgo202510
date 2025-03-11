@@ -46,6 +46,16 @@ public class Kruskal {
 			}
 		} 
 		
+		private void badUnion(int a, int b) {
+			int[] pp = this.prttn;
+			if(a < b) {
+				pp[b] = a;
+			}
+			else {
+				pp[a] = b;
+			}
+		}
+		
 		/**
 		 * Finds the root/label of the set containing _a_.
 		 * @param a
