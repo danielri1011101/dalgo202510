@@ -96,11 +96,11 @@ public class Kruskal {
 		 */
 		public int[] giveNodes() {
 			int[] result = new int[2];
-			int m = this.mask;
-			int row = giveTriangleRow(m);
-			int t = row*(row-1)/2;
+			int mask = this.mask;
+			int row = giveTriangleRow(mask);
+			int triangle = row*(row-1)/2;
 			
-			result[0] = m-t;
+			result[0] = mask-triangle;
 			result[1] = row;
 			
 			return result;
