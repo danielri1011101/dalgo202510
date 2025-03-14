@@ -1,7 +1,6 @@
 package semanas07a08;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -42,12 +41,15 @@ public class DijkstraBellmanFord {
 		 * @TODO: Edge constructor with node pair.
 		 */
 		private Edge(int[] nodes, int weight, int graphOrder) {
-			this.graphOrder = graphOrder;
+			int n = graphOrder;
+			this.graphOrder = n;
 			int a = nodes[0];
 			int b = nodes[1];
 			int mask = getMask(a,b,graphOrder);
 			this.mask = mask;
 			this.weight = weight;
+			this.validMask = 0 <= this.mask && this.mask < n*(n-1)/2 ||
+					n*(n+1)/2 <= this.mask && this.mask < n*n;
 		}
 		
 		/**
