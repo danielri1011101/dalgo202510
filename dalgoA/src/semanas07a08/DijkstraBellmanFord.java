@@ -25,11 +25,11 @@ public class DijkstraBellmanFord {
 		private boolean validMask;
 		
 		public Edge(int graphOrder, int mask, int weight) {
-			this.graphOrder = graphOrder;
+			int n = graphOrder;
+			this.graphOrder = n;
 			this.mask = mask;
 			this.weight = weight;
 			
-			int n = this.graphOrder;
 			
 			this.validMask = 0 <= this.mask && this.mask < n*(n-1)/2 ||
 					n*(n+1)/2 <= this.mask && this.mask < n*n;
@@ -41,26 +41,27 @@ public class DijkstraBellmanFord {
 		/**
 		 * @TODO: Edge constructor with node pair.
 		 */
-		private Edge(int[] nodes, int weight, int graphOrder) {
-			this.graphOrder = graphOrder;
+		private Edge(int graphOrder, int[] nodes, int weight) {
+			int n = graphOrder;
+			this.graphOrder = n;
 			int a = nodes[0];
 			int b = nodes[1];
-			int mask = getMask(a,b,graphOrder);
-			this.mask = mask;
+			this.mask = getMask(a,b,graphOrder);
 			this.weight = weight;
+			this.validMask = 0 <= this.mask && this.mask < n*(n-1)/2 ||
+					n*(n+1)/2 <= this.mask && this.mask < n*n; 
 		}
 		
 		/**
 		 * Computes the member nodes from the triangle mask.
-		 * @return an int array of size 2 with the masked nodes.
-		 * @TODO: modify accordingly.
+		 * @return an int array of size 2 with the masked node pair.
 		 */
 		public int[] giveNodes() {
 			int[] result = new int[2];
 			int mask = this.mask;
 			int n = this.graphOrder;
 			if(mask >= n*(n+1)/2) {
-				int lowMask = mask - n*(n-1)/2;
+				int lowMask = mask - n*(n+1)/2;
 				int lRow = giveLowRow(lowMask);
 				int triangle = lRow*(lRow-1)/2;
 				result[0] = lRow;
@@ -114,11 +115,14 @@ public class DijkstraBellmanFord {
 			 * @return
 			 */
 			private static int getMask(int a, int b, int order) {
+				int n = order;
+				if(a==b && a < n) {
+					return a + n*(n-1)/2;
+				}
 				if(a<b) {
 					return getLowMask(a, b);
 				}
 				else {
-					int n = order;
 					int lowMask = getLowMask(b, a);
 					return lowMask + n*(n+1)/2;
 				}
@@ -136,8 +140,8 @@ public class DijkstraBellmanFord {
 		private int order; // number of nodes.
 		private Edge[] edges;
 		
-		public DiGraph(int n, Edge[] edges) {
-			this.order = n;
+		public DiGraph(int order, Edge[] edges) {
+			this.order = order;
 			this.edges = edges;
 		}
 		
@@ -199,7 +203,7 @@ public class DijkstraBellmanFord {
 			if(i < s) {
 				result[i] = dss[s][i]; 
 			}
-			else if(i > s) {
+			if(i > s) {
 				result[i-1] = dss[s][i];
 			}
 		}
@@ -207,17 +211,34 @@ public class DijkstraBellmanFord {
 		int cc = full ^ (1 << s);
 		int low = 0;
 		while(cc != 0) {
-			int minIdx = log2(cc);
-			for(int i=low; i < log2(cc); i++) {
-				if(((cc & (1<<i)) != 0) &&
-						result[i] < result[minIdx]) {
-					minIdx = i;
+			int minIdx = -1;
+			if(log2(cc) > s) {
+				minIdx = log2(cc)-1;
+			}
+			else {
+				minIdx = log2(cc);
+			}
+			for(int i=low; i <= log2(cc); i++) {
+				int j = -1;
+				if(i < s) {
+					j = i;
+				}
+				else {
+					j = i-1;
+				}
+				if((cc & (1<<i)) != 0 &&
+						result[j] < result[minIdx]) {
+					minIdx = j;
 				}
 			}
-			cc ^= minIdx;
 			if(minIdx == low) {
 				low++;
 			}
+			int toRemove = minIdx;
+			if(minIdx > s) {
+				toRemove = minIdx+1;
+			}
+			cc ^= toRemove;
 			if(cc == 0) {
 				continue;
 			}
@@ -286,11 +307,56 @@ public class DijkstraBellmanFord {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		boolean[] bb = new boolean[1];
-		System.out.println(bb[0]);
-		int var = (int) (Math.log(85)/Math.log(2));
-		System.out.println(var);
-		System.out.println(log2(63));
+		/**
+		 * Book's example
+		 */
+		Edge[] es = new Edge[8];
+		
+		int order = 5;
+		int n = order;
+		
+		int[] pair = {0,1};
+		Edge e = new Edge(n, pair, 50);
+		es[0] = e;
+		
+		pair = new int[] {0,2};
+		e = new Edge(n, pair, 30);
+		es[1] = e; 
+		
+		pair = new int[] {0,3};
+		e = new Edge(n, pair, 100);
+		es[2] = e; 
+		
+		pair = new int[] {0,4};
+		e = new Edge(n, pair, 10);
+		es[3] = e; 
+		
+		pair = new int[] {4,3};
+		e = new Edge(n, pair, 10);
+		es[4] = e; 
+		
+		pair = new int[] {3,1};
+		e = new Edge(n, pair, 20);
+		es[5] = e; 
+		
+		pair = new int[] {3,2};
+		e = new Edge(n, pair, 50);
+		es[6] = e; 
+		
+		pair = new int[] {2,1};
+		e = new Edge(n, pair, 5);
+		es[7] = e; 
+		
+//		int foo = Edge.getMask(4, 3, 5);
+//		int goo = Edge.getMask(4, 4, 5);
+//		
+//		System.out.println(foo);
+//		System.out.println(goo);
+
+		DiGraph dgg = new DiGraph(n, es);
+		
+		int[] minDists = dijkstra(dgg, 0);
+		
 	}
 
 }
