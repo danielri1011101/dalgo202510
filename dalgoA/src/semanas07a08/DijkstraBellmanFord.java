@@ -40,11 +40,7 @@ public class DijkstraBellmanFord {
 		/**
 		 * @TODO: Edge constructor with node pair.
 		 */
-<<<<<<< HEAD
 		private Edge(int graphOrder, int[] nodes, int weight) {
-=======
-		private Edge(int[] nodes, int weight, int graphOrder) {
->>>>>>> branch 'master' of https://github.com/danielri1011101/dalgo202510.git
 			int n = graphOrder;
 			this.graphOrder = n;
 			int a = nodes[0];
@@ -52,11 +48,7 @@ public class DijkstraBellmanFord {
 			this.mask = getMask(a,b,graphOrder);
 			this.weight = weight;
 			this.validMask = 0 <= this.mask && this.mask < n*(n-1)/2 ||
-<<<<<<< HEAD
 					n*(n+1)/2 <= this.mask && this.mask < n*n; 
-=======
-					n*(n+1)/2 <= this.mask && this.mask < n*n;
->>>>>>> branch 'master' of https://github.com/danielri1011101/dalgo202510.git
 		}
 		
 		/**
