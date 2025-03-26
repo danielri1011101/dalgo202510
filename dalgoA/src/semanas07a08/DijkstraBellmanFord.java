@@ -211,7 +211,6 @@ public class DijkstraBellmanFord {
 		int cc = full ^ (1 << s);
 		int low = 0;
 		while(cc != 0) {
-<<<<<<< Upstream, based on origin/master
 			int minIdx = -1;
 			if(log2(cc) > s) {
 				minIdx = log2(cc)-1;
@@ -230,8 +229,6 @@ public class DijkstraBellmanFord {
 				if((cc & (1<<i)) != 0 &&
 						result[j] < result[minIdx]) {
 					minIdx = j;
-=======
-			int minIdx = low;
 			for(int i=low; i < log2(cc); i++) {
 				if((cc & (1<<i)) != 0) {
 					boolean b = i >= s;
@@ -242,7 +239,6 @@ public class DijkstraBellmanFord {
 					if(result[j] < result[minIdx]) {
 						minIdx = j;
 					}
->>>>>>> 41b2f09 attempted some debugging
 				}
 			}
 			if(minIdx == low) {
@@ -326,7 +322,6 @@ public class DijkstraBellmanFord {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-<<<<<<< Upstream, based on origin/master
 		/**
 		 * Book's example
 		 */
@@ -377,7 +372,6 @@ public class DijkstraBellmanFord {
 		
 		int[] minDists = dijkstra(dgg, 0);
 		
-=======
 		Random rand = new Random(3);
 
 		boolean[] bb = new boolean[1];
@@ -385,7 +379,6 @@ public class DijkstraBellmanFord {
 		int var = (int) (Math.log(85)/Math.log(2));
 		System.out.println(var);
 		System.out.println(log2(63));
->>>>>>> 41b2f09 attempted some debugging
 	}
 
 }
