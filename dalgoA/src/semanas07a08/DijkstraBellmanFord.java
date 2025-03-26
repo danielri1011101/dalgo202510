@@ -3,6 +3,7 @@ package semanas07a08;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 public class DijkstraBellmanFord {
 
@@ -210,6 +211,7 @@ public class DijkstraBellmanFord {
 		int cc = full ^ (1 << s);
 		int low = 0;
 		while(cc != 0) {
+<<<<<<< Upstream, based on origin/master
 			int minIdx = -1;
 			if(log2(cc) > s) {
 				minIdx = log2(cc)-1;
@@ -228,6 +230,19 @@ public class DijkstraBellmanFord {
 				if((cc & (1<<i)) != 0 &&
 						result[j] < result[minIdx]) {
 					minIdx = j;
+=======
+			int minIdx = low;
+			for(int i=low; i < log2(cc); i++) {
+				if((cc & (1<<i)) != 0) {
+					boolean b = i >= s;
+					int j = i;
+					if(b) {
+						j = i-1;
+					}
+					if(result[j] < result[minIdx]) {
+						minIdx = j;
+					}
+>>>>>>> 41b2f09 attempted some debugging
 				}
 			}
 			if(minIdx == low) {
@@ -243,8 +258,13 @@ public class DijkstraBellmanFord {
 			}
 			for(int i=low; i < log2(cc); i++) {
 				if((cc & (1<<i)) != 0) {
-					result[i] = Math.min(result[i],
-							result[minIdx] + dss[minIdx][i]);
+					int j = i;
+					boolean b = i >= s;
+					if(b) {
+						j = i-1;
+					}
+					result[j] = Math.min(result[j],
+							result[minIdx] + dss[minIdx][j]);
 				}
 			}
 		}
@@ -306,6 +326,7 @@ public class DijkstraBellmanFord {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+<<<<<<< Upstream, based on origin/master
 		/**
 		 * Book's example
 		 */
@@ -356,6 +377,15 @@ public class DijkstraBellmanFord {
 		
 		int[] minDists = dijkstra(dgg, 0);
 		
+=======
+		Random rand = new Random(3);
+
+		boolean[] bb = new boolean[1];
+		System.out.println(bb[0]);
+		int var = (int) (Math.log(85)/Math.log(2));
+		System.out.println(var);
+		System.out.println(log2(63));
+>>>>>>> 41b2f09 attempted some debugging
 	}
 
 }
