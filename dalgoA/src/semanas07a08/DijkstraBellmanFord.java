@@ -265,7 +265,6 @@ public class DijkstraBellmanFord {
 			}
 		}
 		return result;
-	}
 	
 	/**
 	 * Builds the graph from the input file.
