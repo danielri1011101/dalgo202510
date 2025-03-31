@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
-public class DijkstraBellmanFord {
+public class ZzDijkstraBellmanFord {
 
 	/**
 	 * For directed graphs, the mask can take values in
