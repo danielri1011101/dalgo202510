@@ -195,76 +195,76 @@ public class DijkstraBellmanFord {
 	}
 	
 	public static int[] dijkstra(DiGraph dgg, int source) {
-		int n = dgg.order;
-		int s = source;
-		int[] result = new int[n-1];
-		int[][] dss = dgg.distanceMatrix();
-		for(int i=0; i < n; i++) {
-			if(i < s) {
-				result[i] = dss[s][i]; 
-			}
-			if(i > s) {
-				result[i-1] = dss[s][i];
-			}
+//		int n = dgg.order;
+//		int s = source;
+//		int[] result = new int[n-1];
+//		int[][] dss = dgg.distanceMatrix();
+//		for(int i=0; i < n; i++) {
+//			if(i < s) {
+//				result[i] = dss[s][i]; 
+//			}
+//			if(i > s) {
+//				result[i-1] = dss[s][i];
+//			}
+//		}
+//		int full = (1 << n)-1;
+//		int cc = full ^ (1 << s);
+//		int low = 0;
+//		while(cc != 0) {
+//			int minIdx = -1;
+//			if(log2(cc) > s) {
+//				minIdx = log2(cc)-1;
+//			}
+//			else {
+//				minIdx = log2(cc);
+//			}
+//			for(int i=low; i <= log2(cc); i++) {
+//				int j = -1;
+//				if(i < s) {
+//					j = i;
+//				}
+//				else {
+//					j = i-1;
+//				}
+//				if((cc & (1<<i)) != 0 &&
+//						result[j] < result[minIdx]) {
+//					minIdx = j;
+//			for(int i=low; i < log2(cc); i++) {
+//				if((cc & (1<<i)) != 0) {
+//					boolean b = i >= s;
+//					int j = i;
+//					if(b) {
+//						j = i-1;
+//					}
+//					if(result[j] < result[minIdx]) {
+//						minIdx = j;
+//					}
+//				}
+//			}
+//			if(minIdx == low) {
+//				low++;
+//			}
+//			int toRemove = minIdx;
+//			if(minIdx > s) {
+//				toRemove = minIdx+1;
+//			}
+//			cc ^= toRemove;
+//			if(cc == 0) {
+//				continue;
+//			}
+//			for(int i=low; i < log2(cc); i++) {
+//				if((cc & (1<<i)) != 0) {
+//					int j = i;
+//					boolean b = i >= s;
+//					if(b) {
+//						j = i-1;
+//					}
+//					result[j] = Math.min(result[j],
+//							result[minIdx] + dss[minIdx][j]);
+//				}
+//			}
+			return null;
 		}
-		int full = (1 << n)-1;
-		int cc = full ^ (1 << s);
-		int low = 0;
-		while(cc != 0) {
-			int minIdx = -1;
-			if(log2(cc) > s) {
-				minIdx = log2(cc)-1;
-			}
-			else {
-				minIdx = log2(cc);
-			}
-			for(int i=low; i <= log2(cc); i++) {
-				int j = -1;
-				if(i < s) {
-					j = i;
-				}
-				else {
-					j = i-1;
-				}
-				if((cc & (1<<i)) != 0 &&
-						result[j] < result[minIdx]) {
-					minIdx = j;
-			for(int i=low; i < log2(cc); i++) {
-				if((cc & (1<<i)) != 0) {
-					boolean b = i >= s;
-					int j = i;
-					if(b) {
-						j = i-1;
-					}
-					if(result[j] < result[minIdx]) {
-						minIdx = j;
-					}
-				}
-			}
-			if(minIdx == low) {
-				low++;
-			}
-			int toRemove = minIdx;
-			if(minIdx > s) {
-				toRemove = minIdx+1;
-			}
-			cc ^= toRemove;
-			if(cc == 0) {
-				continue;
-			}
-			for(int i=low; i < log2(cc); i++) {
-				if((cc & (1<<i)) != 0) {
-					int j = i;
-					boolean b = i >= s;
-					if(b) {
-						j = i-1;
-					}
-					result[j] = Math.min(result[j],
-							result[minIdx] + dss[minIdx][j]);
-				}
-			}
-		}
-		return result;
 	
 	/**
 	 * Builds the graph from the input file.
