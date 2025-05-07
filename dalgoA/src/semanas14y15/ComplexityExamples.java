@@ -149,12 +149,15 @@ public class ComplexityExamples {
 
 		pathWeight++;
 		
+		Edge[] edgesCopy = gg.edges.clone();
+		
 		// remove redundant edges until a single optimal path remains.
-		for(Edge e : gg.edges) {
+		for(Edge e : edgesCopy) {
 			gg.removeEdge(e);
 			if(!checkTSPD(gg, pathWeight)) gg.addEdge(e);
 		}
 		
+		// Now the edges of gg make up a single optimal hamiltonian cycle.
 		return gg.edges;
 	}
 	
