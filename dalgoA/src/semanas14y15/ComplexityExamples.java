@@ -52,7 +52,7 @@ public class ComplexityExamples {
 	 *
 	 */
 	private static class Graph {
-		int nodes;
+		int nodes; // Number of nodes, aka. order of graph.
 		Edge[] edges;
 		
 		public Graph(int nodes, Edge[] edges) {
@@ -159,6 +159,24 @@ public class ComplexityExamples {
 		
 		// Now the edges of gg make up a single optimal hamiltonian cycle.
 		return gg.edges;
+	}
+	
+	public static boolean[] approxVertexCover(Graph gg) {
+		boolean[] cover = new boolean[gg.nodes];
+		int esm = 1 << gg.edges.length; // Edge set bitmask.
+		Edge[] es = gg.edges.clone();
+		while(esm != 0) {
+			for(Edge e : es) {
+				int[] eNodes = e.giveNodes();
+				int u = eNodes[0];
+				int v = eNodes[1];
+				esm ^= u;
+				esm ^= v;
+				cover[u] = true;
+				cover[v] = true;
+			}
+		}
+		return cover;
 	}
 	
 	/**
