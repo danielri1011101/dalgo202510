@@ -107,21 +107,30 @@ public class GraphAlgorithms {
 	}
 	
 	/**
-	 * Receives the output of Kruskal's, a minimum spanning tree
-	 * totally ordered according to edge weight. Reorganizes it
-	 * so that the first ordering criterion is adjacency of the
-	 * nodes appearing, then weights.
-	 * @param es _list of edges_
+	 * Receives a list of edges that form a tree, and sorts it so that
+	 * all [0..k]-th sublists form trees.
+	 * @param es _list of edges_, they form a tree.
 	 * @param graphOrder _order of underlying graph._
 	 */
 	private static void adjacencySorting(Edge[] es, int graphOrder) {
 		int n = graphOrder;
+		int m = es.length;
 		int[] p = new int[n]; // partition
 		
 		// initialize partition as totally disjoint.
 		for(int i=0; i<n; i++) {
 			p[i] = i;
 		}
+		
+		int[] nds = es[0].giveNodes();
+		
+		int u = nds[0];
+		int v = nds[1];
+		
+		// initializes connected component of "root" node.
+		p[v] = u;
+		
+		
 	}
 	
 	/**
@@ -129,7 +138,7 @@ public class GraphAlgorithms {
 	 * @param p partition
 	 * @param a node
 	 * @param h head
-	 * @return
+	 * @return a -->* h in partition p.
 	 */
 	private static boolean belongs(int[] p, int a, int h) {
 		int i = 0;
