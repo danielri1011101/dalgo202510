@@ -161,6 +161,11 @@ public class ComplexityExamples {
 		return gg.edges;
 	}
 	
+	/**
+	 * 
+	 * @param gg
+	 * @return Wrong. Currently returns an array of true_s, I think.
+	 */
 	public static boolean[] approxVertexCover(Graph gg) {
 		boolean[] cover = new boolean[gg.nodes];
 		int esm = 1 << gg.edges.length; // Edge set bitmask.
