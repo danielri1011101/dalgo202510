@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Kruskal {
+public class GraphAlgorithms {
 
 	private static class Partition {
 		private int totalNodes;
@@ -71,57 +71,7 @@ public class Kruskal {
 		
 	}
 	
-	private static class Edge {
-		private int mask; // mask for edges using triangular numbers.
-		private int weight;
-		
-		private boolean validMask;
-		
-		public Edge(int mask, int weight) {
-			this.mask = mask;
-			this.weight = weight;
-		}
-		
-		private Edge(int[] nodes, int weight) {
-			int col = nodes[0];
-			int row = nodes[1];
-			int mask = getTMask(col, row);
-			this.mask = mask;
-			this.weight = weight;
-		}
-		
-		/**
-		 * Computes the member nodes from the triangle mask.
-		 * @return an int array of size 2 with the masked nodes.
-		 */
-		public int[] giveNodes() {
-			int[] result = new int[2];
-			int mask = this.mask;
-			int row = giveTriangleRow(mask);
-			int triangle = row*(row-1)/2;
-			
-			result[0] = mask-triangle;
-			result[1] = row;
-			
-			return result;
-		}
-		
-	}
 	
-	/**
-	 * Undirected graph with weights.
-	 * @author danielri1011101
-	 *
-	 */
-	private static class Graph {
-		int nodes;
-		Edge[] edges;
-		
-		public Graph(int nodes, Edge[] edges) {
-			this.nodes = nodes;
-			this.edges = edges;
-		}
-	}
 	
 	public static Edge[] kruskal(Graph gg) {
 		Edge[] ans_ = new Edge[gg.edges.length];
@@ -157,6 +107,41 @@ public class Kruskal {
 	}
 	
 	/**
+	 * Receives the output of Kruskal's, a minimum spanning tree
+	 * totally ordered according to edge weight. Reorganizes it
+	 * so that the first ordering criterion is adjacency of the
+	 * nodes appearing, then weights.
+	 * @param es _list of edges_
+	 * @param graphOrder _order of underlying graph._
+	 */
+	private static void adjacencySorting(Edge[] es, int graphOrder) {
+		int n = graphOrder;
+		int[] p = new int[n]; // partition
+		
+		// initialize partition as totally disjoint.
+		for(int i=0; i<n; i++) {
+			p[i] = i;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param p partition
+	 * @param a node
+	 * @param h head
+	 * @return
+	 */
+	private static boolean belongs(int[] p, int a, int h) {
+		int i = 0;
+		int b = a;
+		while(p[b] != b && i < p.length) {
+			b = p[b];
+			i++;
+		}
+		return b == h;
+	}
+	
+	/**
 	 * Insertion sort with edge weight as sorting criterion.
 	 * @param es edges to be sorted.
 	 */
@@ -172,27 +157,6 @@ public class Kruskal {
 		}
 	}
 	
-	private static int giveTriangleRow(int m) {
-		int v = 1+8*m;
-		int root = (int) Math.sqrt(v);
-		int row = (1+root)/2;
-		return row;
-	}
-	
-	/**
-	 * Gives the triangle mask associated to the edge
-	 * {a,b} where _a_ and _b_ are different non-negative
-	 * integers.
-	 * @param a non-negative integer.
-	 * @param b non-negative integer, greater than _a_.
-	 * @return
-	 */
-	private static int getTMask(int a, int b) {
-		int row = b;
-		int col = a;
-		int t = row*(row-1)/2;
-		return t+a;
-	}
 	
 	/**
 	 * Builds the graph from the input file.
@@ -240,8 +204,8 @@ public class Kruskal {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String input = "/home/profesor/danielr/teaching/dalgo202510/"
-				+ "diapositivasYMaterialClases/semana07/kInput1.txt";
+		String input = "/home/daniel/git/repository2/"
+				+ "dalgoA/src/semanas07a08/kInput1.txt";
 		try {
 			Graph gg = setUp(input);
 			Edge[] mst = kruskal(gg); // a minimum spanning tree of gg.
