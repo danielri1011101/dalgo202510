@@ -143,6 +143,10 @@ public class GraphAlgorithms {
 			}
 			// Now j+a is the index where the next adjacent edge lies.
 			
+			// Progress the partition.
+			v = es[j+a].giveNodes()[1];
+			p[v] = u;
+			
 			// Swap the edges.
 			Edge ed = es[j];
 			es[j] = es[j+a];
@@ -231,8 +235,8 @@ public class GraphAlgorithms {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String input = "/home/daniel/git/repository2/"
-				+ "dalgoA/src/semanas07a08/kInput1.txt";
+		String input = "/home/profesor/git/dalgo202510/dalgoA/"
+				+ "src/semanas07a08/kInput1.txt";
 		try {
 			Graph gg = setUp(input);
 			Edge[] mst = kruskal(gg); // a minimum spanning tree of gg.
