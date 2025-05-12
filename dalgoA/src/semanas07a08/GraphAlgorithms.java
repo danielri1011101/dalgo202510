@@ -110,15 +110,13 @@ public class GraphAlgorithms {
 	 * Receives a list of edges that form a tree, and sorts it so that
 	 * all [0..k]-th sublists form trees.
 	 * @param es _list of edges_, they form a tree.
-	 * @param graphOrder _order of underlying graph._
 	 */
-	private static void adjacencySorting(Edge[] es, int graphOrder) {
-		int n = graphOrder;
+	private static void adjacencySort(Edge[] es) {
 		int m = es.length;
-		int[] p = new int[n]; // partition
+		int[] p = new int[m+1]; // partition
 		
 		// initialize partition as totally disjoint.
-		for(int i=0; i<n; i++) {
+		for(int i=0; i<m+1; i++) {
 			p[i] = i;
 		}
 		
@@ -140,8 +138,15 @@ public class GraphAlgorithms {
 			int a = 0;
 			
 			while(!belongs(p,u,u0)) {
-				
+				a++;
+				u = es[j+a].giveNodes()[0];
 			}
+			// Now j+a is the index where the next adjacent edge lies.
+			
+			// Swap the edges.
+			Edge ed = es[j];
+			es[j] = es[j+a];
+			es[j+a] = ed;
 		}
 		
 	}
@@ -233,6 +238,20 @@ public class GraphAlgorithms {
 			Edge[] mst = kruskal(gg); // a minimum spanning tree of gg.
 			System.out.println("The edges of a minimum spanning"
 					+ " tree for G are:");
+			for(int i=0; i < mst.length; i++) {
+				Edge e = mst[i];
+				int[] nodes = e.giveNodes();
+				System.out.print("{" + nodes[0] + ", " + nodes[1]);
+				System.out.println("}");
+			}
+			
+			System.out.println();
+			
+			System.out.println("Tree edges are now listed preserving"
+					+ " adjacency:");
+			
+			adjacencySort(mst);
+			
 			for(int i=0; i < mst.length; i++) {
 				Edge e = mst[i];
 				int[] nodes = e.giveNodes();
