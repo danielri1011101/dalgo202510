@@ -124,12 +124,25 @@ public class GraphAlgorithms {
 		
 		int[] nds = es[0].giveNodes();
 		
-		int u = nds[0];
-		int v = nds[1];
+		int u0 = nds[0];
+		int v0 = nds[1];
 		
 		// initializes connected component of "root" node.
-		p[v] = u;
+		p[v0] = u0;
 		
+		for(int j=1; j<m; j++) {
+			nds = es[j].giveNodes();
+			int u = nds[0];
+			int v = nds[1];
+			
+			p[v] = u;
+			
+			int a = 0;
+			
+			while(!belongs(p,u,u0)) {
+				
+			}
+		}
 		
 	}
 	
